@@ -18,10 +18,13 @@ for name in names:
         
 df = pd.read_csv("tracks_group.csv")
 
-json_data["tracks_total"] = df.shape[0]
-
+count = 0
 for name in names:
-    json_data["tracks_" + name] = df[df["grouping"] == name].shape[0]
+    count_this = df[df["grouping"] == name].shape[0]
+    json_data["tracks_" + name] = count_this
+    count += count_this
+    
+json_data["tracks_total"] = count + df[df["grouping"] == "kpop"].shape[0]
     
 with open("data.json", "w") as f:
     json.dump(json_data, f)
